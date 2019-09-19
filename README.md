@@ -14,7 +14,7 @@ git clone git@github.com:hanguihe/manage-system.git
 
 不再使用antd原始Layout
 
-面包屑等其他配置项详细查看文档 -> [Ant-Design-Pro-Layout](https://github.com/ant-design/ant-design-pro-layout/blob/master/README.md)
+面包屑等其他配置项详细查看文档 -> [Ant-Design-Pro-Layout](https://github.com/ant-design/ant-design-pro-layout/blob/master/README.zh-CN.md)
 
 
 ### 路由

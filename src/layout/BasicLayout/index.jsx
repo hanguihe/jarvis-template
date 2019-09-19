@@ -4,6 +4,7 @@ import DefaultFooter from "../../components/DefaultFooter";
 import config from "../../config/router.config";
 import logo from "../../assets/images/logo.svg";
 import { Link, withRouter } from "react-router-dom";
+import UserContent from "../../components/GlobalHeader/UserContent";
 
 const BasicLayout = ({ location, children }) => {
   return (
@@ -13,6 +14,7 @@ const BasicLayout = ({ location, children }) => {
       route={config}
       location={location}
       footerRender={DefaultFooter}
+      rightContentRender={() => <UserContent />}
       menuItemRender={(menuItemProps, defaultDom) => {
         if (menuItemProps.isUrl) {
           return defaultDom;

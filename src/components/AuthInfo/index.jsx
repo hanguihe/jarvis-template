@@ -17,9 +17,9 @@ const AuthInfo = ({
   useEffect(() => {
     getUserInfo()
       .then((res) => {
-        console.log(res);
         if (res.code === 0) {
-          setUserInfo(res.data);
+          setUserInfo(res.data.userInfo);
+          localStorage.setItem("token", res.data.token);
           setLoading(false);
         } else {
           localStorage.clear();
