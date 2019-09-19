@@ -1,6 +1,7 @@
 import { BasicLayout } from "../layout";
 
-import HomePage from "../pages/HomePage";
+import Welcome from "../pages/Welcome";
+import MatchParams from "../pages/MatchParams";
 
 const config = {
   path: "/",
@@ -12,7 +13,7 @@ const config = {
       exact: true,
       hideInMenu: false,
       layout: BasicLayout,
-      component: HomePage,
+      component: Welcome,
     },
     {
       path: "/extra",
@@ -20,27 +21,17 @@ const config = {
       name: "其他",
       exact: true,
       hideInMenu: false,
-      layout: BasicLayout,
-      component: HomePage,
+      redirect: "/extra/123",
       routes: [
         {
-          path: "/extra/1",
+          path: "/extra/:id",
           icon: "home",
-          name: "其他子项-1",
+          name: "其他子项",
           exact: true,
           hideInMenu: false,
           layout: BasicLayout,
-          component: HomePage,
+          component: MatchParams,
         },
-        {
-          path: "/extra/2",
-          icon: "home",
-          name: "其他子项-2",
-          exact: true,
-          hideInMenu: false,
-          layout: BasicLayout,
-          component: HomePage,
-        }
       ]
     }
   ]
@@ -50,13 +41,18 @@ export const mapRouterConfig = () => {
   const router = [];
 
   const loop = (data) => {
-
     data.forEach((item) => {
       if (item.routes) {
+        if (item.redirect) {
+          router.push({
+            path: item.path,
+            exact: item.exact,
+            redirect: item.redirect,
+          });
+        }
         loop(item.routes);
       } else {
         router.push({
-          key: item.key,
           path: item.path,
           name: item.name,
           layout: item.layout,
@@ -64,6 +60,7 @@ export const mapRouterConfig = () => {
           icon: item.icon ? item.icon : null,
           exact: item.exact ? item.exact : true,
           hideInMenu: item.hideInMenu ? item.hideInMenu : false,
+          redirect: item.redirect
         });
       }
     });

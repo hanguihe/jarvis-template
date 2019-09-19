@@ -22,12 +22,12 @@ git clone git@github.com:hanguihe/manage-system.git
 ```typescript
 export interface Route {
   path: string;
+  redirect?:string;
   routes: Array<{
     exact?: boolean;
     icon: string;
     name: string;
     path: string;
-    // optional secondary menu
     children?: Route['routes'];
   }>;
 }

@@ -15,6 +15,11 @@ const BasicLayout = ({ location, children }) => {
       location={location}
       footerRender={DefaultFooter}
       rightContentRender={() => <UserContent />}
+      itemRender={(route) => {
+        return (
+          <Link to={route.path}>{route.breadcrumbName}</Link>
+        );
+      }}
       menuItemRender={(menuItemProps, defaultDom) => {
         if (menuItemProps.isUrl) {
           return defaultDom;
