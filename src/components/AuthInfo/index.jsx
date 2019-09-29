@@ -6,11 +6,11 @@ import { clearUserInfo, setUserInfo } from "../../redux/user.redux";
 import { Spin } from "antd";
 
 const AuthInfo = ({
-                    children,
-                    history,
-                    setUserInfo,
-                    clearUserInfo,
-                  }) => {
+  children,
+  history,
+  setUserInfo,
+  clearUserInfo,
+}) => {
   const [loading, setLoading] = useState(true);
 
   // 校验用户身份有效性

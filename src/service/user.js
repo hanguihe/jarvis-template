@@ -1,4 +1,3 @@
-import axios from "axios";
 import { mockUserInfo } from "../mock/user";
 
 export async function getUserInfo() {
