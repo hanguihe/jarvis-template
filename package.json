@@ -20,7 +20,7 @@
     "css-loader": "2.1.1",
     "dotenv": "6.2.0",
     "dotenv-expand": "4.2.0",
-    "eslint": "^6.1.0",
+    "eslint": "^6.7.2",
     "eslint-config-react-app": "^5.0.1",
     "eslint-loader": "2.2.1",
     "eslint-plugin-flowtype": "3.13.0",
@@ -71,6 +71,10 @@
   "scripts": {
     "start": "node scripts/start.js",
     "build": "node scripts/build.js",
+    "lint": "npm run lint:js && npm run lint:style && npm run prettier",
+    "lint:js": "eslint --cache --ext .js,.jsx,.ts,.tsx --format=pretty ./src",
+    "lint:style": "stylelint --fix \"src/**/*.less\" --syntax less",
+    "prettier": "prettier -c --write \"**/*\"",
     "test": "node scripts/test.js"
   },
   "eslintConfig": {
@@ -138,6 +142,14 @@
   },
   "devDependencies": {
     "@babel/plugin-transform-react-jsx": "^7.3.0",
-    "babel-plugin-import": "^1.12.1"
+    "@umijs/fabric": "^1.2.1",
+    "babel-plugin-import": "^1.12.1",
+    "eslint-plugin-eslint-comments": "^3.1.2",
+    "eslint-plugin-jest": "^23.1.1",
+    "eslint-plugin-unicorn": "^14.0.1",
+    "prettier": "^1.19.1",
+    "stylelint": "^12.0.0",
+    "tslint": "^5.20.1",
+    "typescript": "^3.7.2"
   }
 }

@@ -1,23 +1,23 @@
-import React from "react";
-import { connect } from "react-redux";
-import { clearUserInfo } from "../../redux/user.redux";
-import { Avatar, Dropdown, Icon, Menu } from "antd";
-import "./index.less";
+import React from 'react';
+import { connect } from 'react-redux';
+import { Avatar, Dropdown, Icon, Menu } from 'antd';
+import { clearUserInfo } from '../../redux/user.redux';
+import './index.less';
 
-const UserContent = ({ userInfo, clearUserInfo }) => {
-
+const UserContent = props => {
+  const { userInfo } = props;
   const onMenuClick = ({ key }) => {
-    switch(key) {
-      case "center":
+    switch (key) {
+      case 'center':
         // TODO 跳转至用户中心
         break;
-      case "setting":
+      case 'setting':
         // TODO 跳转至用户设置
         break;
-      case "logout":
+      case 'logout':
         // TODO 退出登录
         localStorage.clear();
-        clearUserInfo();
+        props.clearUserInfo();
         break;
       default:
         break;
@@ -45,23 +45,18 @@ const UserContent = ({ userInfo, clearUserInfo }) => {
   return (
     <Dropdown overlay={menuHeaderDropdown}>
       <span className="account-content">
-        {
-          userInfo.avatar &&
+        {userInfo.avatar && (
           <Avatar
             size="default"
             className="account-content-avatar"
             src={userInfo.avatar}
             alt="avatar"
           />
-        }
+        )}
         <span className="account-content-name">{userInfo.name}</span>
-        </span>
+      </span>
     </Dropdown>
   );
-
 };
 
-export default connect(
-  state => state.user,
-  { clearUserInfo }
-)(UserContent);
+export default connect(state => state.user, { clearUserInfo })(UserContent);

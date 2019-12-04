@@ -1,11 +1,3 @@
-import React from "react";
-
-const BlankLayout = ({ children }) => {
-  return (
-    <>
-      {children}
-    </>
-  );
-};
+const BlankLayout = ({ children }) => children;
 
 export default BlankLayout;

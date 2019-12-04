@@ -12,17 +12,16 @@ git clone git@github.com:hanguihe/manage-system.git
 
 ### 布局
 
-不再使用antd原始Layout
+不再使用 antd 原始 Layout
 
 面包屑等其他配置项详细查看文档 -> [Ant-Design-Pro-Layout](https://github.com/ant-design/ant-design-pro-layout/blob/master/README.zh-CN.md)
-
 
 ### 路由
 
 ```typescript
 export interface Route {
   path: string;
-  redirect?:string;
+  redirect?: string;
   routes: Array<{
     exact?: boolean;
     icon: string;
@@ -41,7 +40,3 @@ export interface Route {
 4. redux-thunk
 5. react-router-dom
 6. less
-
-
-
-

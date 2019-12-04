@@ -1,8 +1,8 @@
 const userInfo = {
-  name: "Mary",
+  name: 'Mary',
 };
 
-const token = "sarfqwperjkalksjdqoiwueo;qwejoq";
+const token = 'sarfqwperjkalksjdqoiwueo;qwejoq';
 
 export async function mockUserInfo() {
   return { code: 0, data: { userInfo, token } };

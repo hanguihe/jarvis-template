@@ -1,12 +1,12 @@
 const initState = {
-  userInfo: {}
+  userInfo: {},
 };
 
-const SET_USER_INFO = "set user info";
-const CLEAR_USER_INFO = "clear user info";
+const SET_USER_INFO = 'set user info';
+const CLEAR_USER_INFO = 'clear user info';
 
 export function user(state = initState, action) {
-  switch(action.type) {
+  switch (action.type) {
     case SET_USER_INFO:
       return { ...state, userInfo: action.payload };
     case CLEAR_USER_INFO:
