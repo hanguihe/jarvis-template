@@ -21,5 +21,6 @@ git clone -b master-ts-pro git@github.com:hanguihe/jarvis-template.git
 
 [跳转分支](https://github.com/hanguihe/jarvis-template/tree/master-ts-pro)
 
-    - `useContext` + `useReducer` 共享内部状态
-    - `useMemo` + `useCallback` 极致性能
+`useContext` + `useReducer` 共享内部状态
+
+`useMemo` + `useCallback` 极致性能
