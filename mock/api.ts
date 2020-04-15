@@ -1,5 +1,7 @@
+import { Request, Response } from 'express';
+
 export default {
-  'POST /api/query': (req, res) => {
+  'POST /api/query': (req: Request, res: Response) => {
     setTimeout(() => {
       res.send({
         code: 0,
@@ -56,7 +58,7 @@ export default {
       });
     }, 1500);
   },
-  'DELETE /api/delete': (req, res) => {
+  'DELETE /api/delete': (req: Request, res: Response) => {
     setTimeout(() => {
       res.send({
         code: 0,
@@ -65,7 +67,7 @@ export default {
       });
     }, 1500);
   },
-  'POST /api/insert': (req, res) => {
+  'POST /api/insert': (req: Request, res: Response) => {
     setTimeout(() => {
       res.send({
         code: 0,
@@ -74,7 +76,7 @@ export default {
       });
     }, 1500);
   },
-  'POST /api/update': (req, res) => {
+  'POST /api/update': (req: Request, res: Response) => {
     setTimeout(() => {
       res.send({
         code: 0,

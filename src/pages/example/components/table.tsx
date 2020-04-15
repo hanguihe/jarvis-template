@@ -14,12 +14,26 @@ import { ExclamationCircleOutlined } from '@ant-design/icons';
 import { useRequest } from '@umijs/hooks';
 import { deleteItem } from '@/services/api';
 import { getRequestError } from '@/utils/function';
+import { ExampleData } from '@/pages/example/data';
+import { ColumnProps } from 'antd/es/table';
 
-const ExampleTable = ({ loading, dataSource, openDrawer, refresh }) => {
+interface ExampleTableProps {
+  readonly loading: boolean;
+  readonly dataSource: Array<ExampleData>;
+  readonly openDrawer: (data?: ExampleData) => void;
+  readonly refresh: () => void;
+}
+
+const ExampleTable: React.FC<ExampleTableProps> = ({
+  loading,
+  dataSource,
+  openDrawer,
+  refresh,
+}) => {
   const { run } = useRequest(deleteItem, { manual: true });
 
   // 删除
-  const onDelete = id => {
+  const onDelete = (id: number) => {
     Modal.confirm({
       title: '确认要删除吗？',
       content: '删除后将无法恢复',
@@ -47,7 +61,7 @@ const ExampleTable = ({ loading, dataSource, openDrawer, refresh }) => {
   };
 
   // 展开行
-  const expandedRowRender = row => {
+  const expandedRowRender = (row: ExampleData) => {
     const { skills } = row;
     return (
       <div>
@@ -62,6 +76,7 @@ const ExampleTable = ({ loading, dataSource, openDrawer, refresh }) => {
   const statisticInfo = () => {
     let ages = 0;
     dataSource.forEach(item => {
+      // do something...
       ages += item.age;
     });
 
@@ -81,7 +96,7 @@ const ExampleTable = ({ loading, dataSource, openDrawer, refresh }) => {
     );
   };
 
-  const columns = [
+  const columns: ColumnProps<ExampleData>[] = [
     {
       dataIndex: 'name',
       title: '名字',
@@ -98,7 +113,7 @@ const ExampleTable = ({ loading, dataSource, openDrawer, refresh }) => {
       align: 'center',
       sorter: (a, b) => a.age - b.age,
       defaultSortOrder: 'ascend',
-      render: text => text || '未知',
+      render: (text: number) => text || '未知',
     },
     {
       dataIndex: 'blood',
@@ -130,19 +145,25 @@ const ExampleTable = ({ loading, dataSource, openDrawer, refresh }) => {
         { text: '火', value: '火' },
         { text: '雷', value: '雷' },
       ],
-      onFilter: (text, row) => row.attribute.includes(text),
+      onFilter: (text, row) =>
+        typeof text === 'string' && row.attribute.includes(text),
     },
     {
       dataIndex: 'action',
       title: '操作',
       align: 'center',
-      render: (text, row) => (
+      render: (_, row: ExampleData) => (
         <div>
           <Button type="link" size="small" onClick={() => openDrawer(row)}>
             编辑
           </Button>
           <Divider type="vertical" />
-          <Button type="link" size="small" danger={true} onClick={onDelete}>
+          <Button
+            type="link"
+            size="small"
+            danger={true}
+            onClick={() => onDelete(row.id)}
+          >
             删除
           </Button>
         </div>

@@ -3,13 +3,14 @@ import { PageHeaderWrapper } from '@ant-design/pro-layout';
 import { useRequest } from '@umijs/hooks';
 import { getTableList } from '@/services/api';
 import { getRequestError } from '@/utils/function';
-import Filter from './components/filter';
+import Filter, { FilterRef } from './components/filter';
 import ExampleTable from './components/table';
-import ExampleForm from './components/form';
+import ExampleForm, { FormRef } from './components/form';
+import { ExampleData } from '@/pages/example/data';
 
-const ExamplePage = () => {
-  const filter = useRef();
-  const formRef = useRef();
+const ExamplePage: React.FC = () => {
+  const filter = useRef<FilterRef>(null);
+  const formRef = useRef<FormRef>(null);
 
   const { loading, run, data = [] } = useRequest(getTableList, {
     formatResult: ({ code, msg, data }) => {
@@ -21,6 +22,14 @@ const ExamplePage = () => {
     onError: err => getRequestError('获取数据失败', err),
   });
 
+  const refresh = () => {
+    return filter.current && filter.current.submit();
+  };
+
+  const openDrawer = (data: ExampleData) => {
+    return formRef.current && formRef.current.open(data);
+  };
+
   return (
     <PageHeaderWrapper
       title={false}
@@ -29,10 +38,10 @@ const ExamplePage = () => {
       <ExampleTable
         loading={loading}
         dataSource={data}
-        openDrawer={data => formRef.current.open(data)}
-        refresh={() => filter.current.submit()}
+        openDrawer={openDrawer}
+        refresh={refresh}
       />
-      <ExampleForm ref={formRef} refresh={() => filter.current.submit()} />
+      <ExampleForm ref={formRef} refresh={refresh} />
     </PageHeaderWrapper>
   );
 };

@@ -1,9 +1,9 @@
-import { extend } from 'umi-request';
+import { extend, ResponseError } from 'umi-request';
 import { notification } from 'antd';
 
 export const domain = 'http://localhost:9093';
 
-const codeMessage = {
+const codeMessage: { [key: number]: string } = {
   200: '服务器成功返回请求的数据。',
   201: '新建或修改数据成功。',
   202: '一个请求已经进入后台排队（异步任务）。',
@@ -24,7 +24,7 @@ const codeMessage = {
 /**
  * 异常处理程序
  */
-const errorHandler = error => {
+const errorHandler = (error: ResponseError) => {
   const { response } = error;
   if (response && response.status) {
     const errorText = codeMessage[response.status] || response.statusText;
@@ -55,7 +55,7 @@ const request = extend({ errorHandler });
  * url前缀 & token
  */
 request.interceptors.request.use(
-  async (url, options) => {
+  (url, options) => {
     return {
       url: `${domain}${url}`,
       options: {

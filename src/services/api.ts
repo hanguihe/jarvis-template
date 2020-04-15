@@ -1,6 +1,6 @@
 // import request from '@/utils/request';
 
-export function getTableList(body) {
+export function getTableList(body: { [key: string]: any }) {
   return {
     url: '/api/query',
     method: 'POST',
@@ -8,7 +8,7 @@ export function getTableList(body) {
   };
 }
 
-export function insertData(body) {
+export function insertData(body: { [key: string]: any }) {
   return {
     url: '/api/insert',
     method: 'POST',
@@ -16,7 +16,7 @@ export function insertData(body) {
   };
 }
 
-export function updateData(body) {
+export function updateData(body: { [key: string]: any }) {
   return {
     url: '/api/update',
     method: 'POST',
@@ -24,7 +24,7 @@ export function updateData(body) {
   };
 }
 
-export function deleteItem(id) {
+export function deleteItem(id: number) {
   return {
     url: '/api/delete',
     method: 'DELETE',

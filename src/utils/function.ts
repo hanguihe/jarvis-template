@@ -6,7 +6,11 @@ import { notification } from 'antd';
  * @param {string|Error} desc
  * @param {function?} fn
  */
-export function getRequestError(msg, desc, fn) {
+export function getRequestError(
+  msg: string,
+  desc: string | Error,
+  fn?: () => void,
+) {
   let description = desc;
 
   // 判断是否是Error类型
@@ -27,8 +31,8 @@ export function getRequestError(msg, desc, fn) {
  * @param option
  * @return {boolean}
  */
-export function selectFilter(input, option) {
-  if (typeof option.children === 'string' && typeof input === 'string') {
+export function selectFilter(input: string, option: any) {
+  if (typeof option.children === 'string') {
     return option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0;
   }
   return false;

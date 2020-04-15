@@ -16,6 +16,7 @@ import { getRequestError, selectFilter } from '@/utils/function';
 import moment from 'moment';
 import { useRequest } from '@umijs/hooks';
 import { insertData, updateData } from '@/services/api';
+import { ExampleData, ExampleResponse } from '@/pages/example/data';
 
 const { Item } = Form;
 const { Option } = Select;
@@ -37,16 +38,24 @@ const attributeEnum = [
   { id: 7, name: '阳' },
 ];
 
-const ExampleForm = forwardRef(({ refresh }, ref) => {
+export interface FormRef {
+  open: (data: ExampleData | undefined) => void;
+}
+
+interface FormProps {
+  readonly refresh: () => void;
+}
+
+const ExampleForm = forwardRef<FormRef, FormProps>(({ refresh }, ref) => {
   const [form] = Form.useForm();
 
-  const [visible, setVisible] = useState(false);
-  const [confirmLoading, setConfirmLoading] = useState(false);
-  const [dataSource, setDataSource] = useState({});
+  const [visible, setVisible] = useState<boolean>(false);
+  const [confirmLoading, setConfirmLoading] = useState<boolean>(false);
+  const [dataSource, setDataSource] = useState<ExampleData | {}>({});
 
   const responseOptions = {
     manual: true,
-    onSuccess: ({ code, msg }) => {
+    onSuccess: ({ code, msg }: ExampleResponse) => {
       setConfirmLoading(false);
       if (code === 0) {
         message.success(`${title}表单成功！`);
@@ -54,7 +63,7 @@ const ExampleForm = forwardRef(({ refresh }, ref) => {
       }
       getRequestError(`${title}表单失败`, msg);
     },
-    onError: err => {
+    onError: (err: Error) => {
       setConfirmLoading(false);
       getRequestError(`${title}表单失败`, err);
     },
@@ -68,7 +77,7 @@ const ExampleForm = forwardRef(({ refresh }, ref) => {
     ...responseOptions,
   });
 
-  const onClose = isRefresh => {
+  const onClose = (isRefresh: boolean | undefined) => {
     setVisible(false);
     setDataSource({});
     form.resetFields();
@@ -78,7 +87,7 @@ const ExampleForm = forwardRef(({ refresh }, ref) => {
     }
   };
 
-  const onFinish = values => {
+  const onFinish = (values: { [key: string]: any }) => {
     const data = JSON.parse(JSON.stringify(values));
     if (!data.skills || data.skills.length === 0) {
       return message.error('技能不能为空');
@@ -87,14 +96,14 @@ const ExampleForm = forwardRef(({ refresh }, ref) => {
     if (data.birthday) {
       data.birthday = moment(data.birthday).format(MOMENT_FORMAT_DATE);
     }
-    if (dataSource.id) {
+    if ('id' in dataSource) {
       return update({ ...data, id: dataSource.id });
     }
     return insert({ ...data });
   };
 
   useImperativeHandle(ref, () => ({
-    open(data) {
+    open: data => {
       setVisible(true);
       if (data) {
         setDataSource(data);
@@ -107,7 +116,7 @@ const ExampleForm = forwardRef(({ refresh }, ref) => {
     },
   }));
 
-  const title = dataSource.id ? '更新' : '新建';
+  const title = 'id' in dataSource ? '更新' : '新建';
 
   return (
     <Drawer
