@@ -1,6 +1,5 @@
 export default {
   locale: {
-    default: 'zh-CN',
     antd: true,
   },
   antd: {

@@ -1,54 +1,54 @@
-import React, { forwardRef, useImperativeHandle } from 'react';
-import { Button, DatePicker, Form, Input, Row, Select } from 'antd';
-import Col from 'antd/es/grid/col';
+import React, { useContext, useEffect, useMemo } from 'react';
+import { Button, Col, DatePicker, Form, Input, Row, Select } from 'antd';
+import moment from 'moment';
 import {
   colFilterLayout,
   formItemLayout,
   MOMENT_FORMAT_DATE,
 } from '@/utils/common';
-import moment from 'moment';
 import { selectFilter } from '@/utils/function';
+import { StoreContext } from '../store';
 
-const { Item } = Form;
-const { Option } = Select;
-
-export interface FilterRef {
-  submit: () => void;
-}
-
-interface FilterProps {
+interface ExampleProps {
   readonly loading: boolean;
   readonly onSubmit: (values: { [key: string]: any }) => void;
 }
 
-const Filter = forwardRef<FilterRef, FilterProps>(
-  ({ loading, onSubmit }, ref) => {
-    const [form] = Form.useForm();
+const { Item } = Form;
+const { Option } = Select;
 
-    const onFinish = (values: { [key: string]: any }) => {
-      // 时间处理
-      if (values.birthday) {
-        values.birthday = moment(values.birthday).format(MOMENT_FORMAT_DATE);
-      }
-      if (values.born_date && values.born_date.length === 2) {
-        values.born_date = [
-          moment(values.born_date[0]).format(MOMENT_FORMAT_DATE),
-          moment(values.born_date[1]).format(MOMENT_FORMAT_DATE),
-        ];
-      }
-      onSubmit(values);
-    };
+const ExampleFilter: React.FC<ExampleProps> = ({ loading, onSubmit }) => {
+  const { state } = useContext(StoreContext);
 
-    const onReset = () => {
-      form.resetFields();
+  const [form] = Form.useForm();
+
+  const onFinish = (values: { [key: string]: any }) => {
+    // 时间处理
+    if (values.birthday) {
+      values.birthday = moment(values.birthday).format(MOMENT_FORMAT_DATE);
+    }
+    if (values.born_date && values.born_date.length === 2) {
+      values.born_date = [
+        moment(values.born_date[0]).format(MOMENT_FORMAT_DATE),
+        moment(values.born_date[1]).format(MOMENT_FORMAT_DATE),
+      ];
+    }
+    onSubmit(values);
+  };
+
+  const onReset = () => {
+    form.resetFields();
+    form.submit();
+  };
+
+  useEffect(() => {
+    if (state.refresh) {
       form.submit();
-    };
+    }
+  }, [state.refresh]);
 
-    useImperativeHandle(ref, () => ({
-      submit: () => form.submit(),
-    }));
-
-    return (
+  return useMemo(
+    () => (
       <Form
         form={form}
         onFinish={onFinish}
@@ -103,8 +103,9 @@ const Filter = forwardRef<FilterRef, FilterProps>(
           </Button>
         </Row>
       </Form>
-    );
-  },
-);
+    ),
+    [loading],
+  );
+};
 
-export default Filter;
+export default ExampleFilter;

@@ -1,19 +1,17 @@
-import React, { useRef } from 'react';
+import React, { useCallback, useContext, useMemo, useReducer } from 'react';
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
 import { useRequest } from '@umijs/hooks';
 import { getTableList } from '@/services/api';
 import { getRequestError } from '@/utils/function';
-import Filter, { FilterRef } from './components/filter';
-import ExampleTable from './components/table';
-import ExampleForm, { FormRef } from './components/form';
-import { ExampleData } from '@/pages/example/data';
+import { ExampleFilter, ExampleTable, ExampleForm } from './components';
+import { initialState, reducer, StoreContext } from './store';
 
 const ExamplePage: React.FC = () => {
-  const filter = useRef<FilterRef>(null);
-  const formRef = useRef<FormRef>(null);
+  const { dispatch } = useContext(StoreContext);
 
   const { loading, run, data = [] } = useRequest(getTableList, {
     formatResult: ({ code, msg, data }) => {
+      dispatch({ type: 'refresh' });
       if (code !== 0) {
         return getRequestError('获取数据失败', msg);
       }
@@ -22,28 +20,36 @@ const ExamplePage: React.FC = () => {
     onError: err => getRequestError('获取数据失败', err),
   });
 
-  const refresh = () => {
-    return filter.current && filter.current.submit();
-  };
+  const onSubmit = useCallback(params => {
+    console.log('form submit', params);
+    run(params);
+  }, []);
 
-  const openDrawer = (data: ExampleData) => {
-    return formRef.current && formRef.current.open(data);
-  };
-
-  return (
-    <PageHeaderWrapper
-      title={false}
-      content={<Filter ref={filter} loading={loading} onSubmit={run} />}
-    >
-      <ExampleTable
-        loading={loading}
-        dataSource={data}
-        openDrawer={openDrawer}
-        refresh={refresh}
-      />
-      <ExampleForm ref={formRef} refresh={refresh} />
-    </PageHeaderWrapper>
+  return useMemo(
+    () => (
+      <PageHeaderWrapper
+        title={false}
+        content={<ExampleFilter loading={loading} onSubmit={onSubmit} />}
+      >
+        <ExampleTable loading={loading} dataSource={data} />
+        <ExampleForm />
+      </PageHeaderWrapper>
+    ),
+    [loading, data],
   );
 };
 
-export default ExamplePage;
+const ExampleProvider: React.FC = () => {
+  const [state, dispatch] = useReducer(reducer, initialState);
+
+  return useMemo(
+    () => (
+      <StoreContext.Provider value={{ state, dispatch }}>
+        <ExamplePage />
+      </StoreContext.Provider>
+    ),
+    [state, dispatch],
+  );
+};
+
+export default ExampleProvider;
