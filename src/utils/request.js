@@ -1,6 +1,8 @@
 import { extend } from 'umi-request';
 import { notification } from 'antd';
 
+export const domain = 'http://localhost:9093';
+
 const codeMessage = {
   200: '服务器成功返回请求的数据。',
   201: '新建或修改数据成功。',
@@ -41,20 +43,28 @@ const errorHandler = error => {
   return response;
 };
 
+const token = localStorage.getItem('token');
+
 /**
  * 配置request请求时的默认参数
  */
 const request = extend({ errorHandler });
 
 /**
- * 请求拦截器
+ * 全局请求拦截器
  * url前缀 & token
  */
-request.interceptors.request.use(async (url, options) => {
-  return {
-    url: '/api' + url,
-    options: { ...options, headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } },
-  };
-});
+request.interceptors.request.use(
+  async (url, options) => {
+    return {
+      url: `${domain}${url}`,
+      options: {
+        ...options,
+        headers: { Authorization: `Bearer ${token}` },
+      },
+    };
+  },
+  { global: false },
+);
 
 export default request;
