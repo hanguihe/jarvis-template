@@ -11,12 +11,12 @@ import {
   Tag,
 } from 'antd';
 import { ColumnProps } from 'antd/es/table';
+import { ExclamationCircleOutlined } from '@ant-design/icons/lib';
+import { useRequest } from '@umijs/hooks';
+import { getRequestError } from '@/utils/function';
+import { deleteItem } from '@/services/api';
 import { ExampleData } from '../../data';
 import { StoreContext } from '../store';
-import { useRequest } from '@umijs/hooks';
-import { deleteItem } from '@/services/api';
-import { ExclamationCircleOutlined } from '@ant-design/icons/lib';
-import { getRequestError } from '@/utils/function';
 
 interface ExampleTableProps {
   readonly loading: boolean;

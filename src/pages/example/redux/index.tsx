@@ -1,15 +1,12 @@
 import React, { useCallback, useMemo } from 'react';
 import { Provider, shallowEqual, useDispatch, useSelector } from 'react-redux';
+import { configureStore } from '@reduxjs/toolkit';
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
-import { State, changeRefresh, store } from './store';
-import {
-  ExampleFilter,
-  ExampleForm,
-  ExampleTable,
-} from '@/pages/example/redux/components';
 import { useRequest } from '@umijs/hooks';
 import { getTableList } from '@/services/api';
 import { getRequestError } from '@/utils/function';
+import { State, changeRefresh, reducer } from './store';
+import { ExampleFilter, ExampleForm, ExampleTable } from './components';
 
 const ExamplePage = () => {
   const { refresh } = useSelector(
@@ -46,12 +43,19 @@ const ExamplePage = () => {
         <ExampleForm />
       </PageHeaderWrapper>
     ),
-    [loading, onSubmit],
+    [loading, data, onSubmit],
   );
 };
 
-export default () => (
-  <Provider store={store}>
-    <ExamplePage />
-  </Provider>
-);
+export default () => {
+  const store = configureStore({
+    reducer,
+    devTools: process.env.NODE_ENV === 'development',
+  });
+
+  return (
+    <Provider store={store}>
+      <ExamplePage />
+    </Provider>
+  );
+};

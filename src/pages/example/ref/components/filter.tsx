@@ -1,6 +1,5 @@
-import React, { useCallback, useEffect, useMemo } from 'react';
+import React, { forwardRef, useCallback, useImperativeHandle } from 'react';
 import { Button, Col, DatePicker, Form, Input, Row, Select } from 'antd';
-import { shallowEqual, useSelector } from 'react-redux';
 import moment from 'moment';
 import {
   colFilterLayout,
@@ -8,54 +7,50 @@ import {
   MOMENT_FORMAT_DATE,
 } from '@/utils/common';
 import { selectFilter } from '@/utils/function';
-import { State } from '../store';
 
 interface ExampleProps {
   readonly loading: boolean;
   readonly onSubmit: (values: { [key: string]: any }) => void;
 }
 
+export interface FilterRef {
+  submit: () => void;
+}
+
 const { Item } = Form;
 const { Option } = Select;
 
-const ExampleFilter: React.FC<ExampleProps> = ({ loading, onSubmit }) => {
-  const { refresh } = useSelector(
-    (state: State) => ({ refresh: state.refresh }),
-    shallowEqual,
-  );
+const ExampleFilter = forwardRef<FilterRef, ExampleProps>(
+  ({ loading, onSubmit }, ref) => {
+    const [form] = Form.useForm();
 
-  const [form] = Form.useForm();
+    const onFinish = useCallback(
+      (values: { [key: string]: any }) => {
+        // 时间处理
+        if (values.birthday) {
+          values.birthday = moment(values.birthday).format(MOMENT_FORMAT_DATE);
+        }
+        if (values.born_date && values.born_date.length === 2) {
+          values.born_date = [
+            moment(values.born_date[0]).format(MOMENT_FORMAT_DATE),
+            moment(values.born_date[1]).format(MOMENT_FORMAT_DATE),
+          ];
+        }
+        onSubmit(values);
+      },
+      [onSubmit],
+    );
 
-  const onFinish = useCallback(
-    (values: { [key: string]: any }) => {
-      // 时间处理
-      if (values.birthday) {
-        values.birthday = moment(values.birthday).format(MOMENT_FORMAT_DATE);
-      }
-      if (values.born_date && values.born_date.length === 2) {
-        values.born_date = [
-          moment(values.born_date[0]).format(MOMENT_FORMAT_DATE),
-          moment(values.born_date[1]).format(MOMENT_FORMAT_DATE),
-        ];
-      }
-      onSubmit(values);
-    },
-    [onSubmit],
-  );
-
-  const onReset = useCallback(() => {
-    form.resetFields();
-    form.submit();
-  }, [form]);
-
-  useEffect(() => {
-    if (refresh) {
+    const onReset = useCallback(() => {
+      form.resetFields();
       form.submit();
-    }
-  }, [form, refresh]);
+    }, [form]);
 
-  return useMemo(
-    () => (
+    useImperativeHandle(ref, () => ({
+      submit: () => form.submit(),
+    }));
+
+    return (
       <Form
         form={form}
         onFinish={onFinish}
@@ -110,9 +105,8 @@ const ExampleFilter: React.FC<ExampleProps> = ({ loading, onSubmit }) => {
           </Button>
         </Row>
       </Form>
-    ),
-    [loading, form, onReset, onFinish],
-  );
-};
+    );
+  },
+);
 
 export default ExampleFilter;

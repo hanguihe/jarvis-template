@@ -1,10 +1,4 @@
-import React, {
-  useCallback,
-  useContext,
-  useEffect,
-  useMemo,
-  useState,
-} from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useRequest } from '@umijs/hooks';
 import {
   Button,
@@ -18,13 +12,13 @@ import {
   Row,
   Select,
 } from 'antd';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
 import { formItemLayout, MOMENT_FORMAT_DATE } from '@/utils/common';
 import { getRequestError, selectFilter } from '@/utils/function';
 import { insertData, updateData } from '@/services/api';
 import { ExampleResponse } from '../../data';
-import { shallowEqual, useDispatch, useSelector } from 'react-redux';
-import { closeDrawer, State } from '@/pages/example/redux/store';
+import { closeDrawer, State } from '../store';
 
 const { Item } = Form;
 const { Option } = Select;

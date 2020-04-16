@@ -48,7 +48,6 @@ const ExampleFilter: React.FC<ExampleProps> = ({ loading, onSubmit }) => {
     if (state.refresh) {
       form.submit();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [form, state.refresh]);
 
   return useMemo(

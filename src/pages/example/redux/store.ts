@@ -1,4 +1,4 @@
-import { configureStore, createAction, createReducer } from '@reduxjs/toolkit';
+import { createAction, createReducer } from '@reduxjs/toolkit';
 import { ExampleData } from '@/pages/example/data';
 
 export interface State {
@@ -35,9 +35,4 @@ export const reducer = createReducer(initialState, {
     currentData: null,
     refresh: action.payload,
   }),
-});
-
-export const store = configureStore({
-  reducer,
-  devTools: process.env.NODE_ENV === 'development',
 });

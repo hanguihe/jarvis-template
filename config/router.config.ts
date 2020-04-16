@@ -21,7 +21,7 @@ export default [
           {
             path: '/example/ref',
             name: 'useRef',
-            component: '@/pages/example/context',
+            component: '@/pages/example/ref',
           },
           {
             path: '/example/context',
