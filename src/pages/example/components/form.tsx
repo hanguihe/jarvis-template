@@ -46,11 +46,16 @@ const attributeEnum = [
 ];
 
 const ExampleForm = () => {
-  const { state, dispatch } = useContext(StoreContext);
+  const {
+    state: { modalVisible, currentData },
+    dispatch,
+  } = useContext(StoreContext);
 
   const [form] = Form.useForm();
 
   const [confirmLoading, setConfirmLoading] = useState<boolean>(false);
+
+  const title = useMemo(() => (currentData ? '更新' : '新建'), [currentData]);
 
   const onClose = useCallback(
     (isRefresh: boolean | undefined) => {
@@ -76,7 +81,7 @@ const ExampleForm = () => {
         getRequestError(`${title}表单失败`, err);
       },
     }),
-    [onClose],
+    [title, onClose],
   );
 
   const { run: insert } = useRequest(insertData, {
@@ -97,30 +102,26 @@ const ExampleForm = () => {
       if (data.birthday) {
         data.birthday = moment(data.birthday).format(MOMENT_FORMAT_DATE);
       }
-      if (state.currentData) {
-        return update({ ...data, id: state.currentData.id });
+      if (currentData) {
+        return update({ ...data, id: currentData.id });
       }
       return insert({ ...data });
     },
-    [state.currentData],
+    [currentData, insert, update],
   );
 
-  const title = useMemo(() => (state.currentData ? '更新' : '新建'), [
-    state.currentData,
-  ]);
-
   useEffect(() => {
-    if (state.currentData) {
-      const { name, skills } = state.currentData;
+    if (currentData) {
+      const { name, skills } = currentData;
       form.setFieldsValue({ name, skills });
     }
-  }, [state.currentData]);
+  }, [currentData, form]);
 
   return useMemo(
     () => (
       <Drawer
         title={title}
-        visible={state.modalVisible}
+        visible={modalVisible}
         width={800}
         forceRender={true}
         onClose={() => onClose(false)}
@@ -261,7 +262,7 @@ const ExampleForm = () => {
         </Form>
       </Drawer>
     ),
-    [state.modalVisible, title, onClose, confirmLoading, form],
+    [modalVisible, title, onClose, onFinish, confirmLoading, form],
   );
 };
 

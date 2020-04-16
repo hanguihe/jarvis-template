@@ -7,11 +7,14 @@ import { ExampleFilter, ExampleTable, ExampleForm } from './components';
 import { initialState, reducer, StoreContext } from './store';
 
 const ExamplePage: React.FC = () => {
-  const { dispatch } = useContext(StoreContext);
+  const { state, dispatch } = useContext(StoreContext);
 
   const { loading, run, data = [] } = useRequest(getTableList, {
     formatResult: ({ code, msg, data }) => {
-      dispatch({ type: 'refresh' });
+      if (state.refresh) {
+        dispatch({ type: 'refresh' });
+      }
+
       if (code !== 0) {
         return getRequestError('获取数据失败', msg);
       }
@@ -20,10 +23,7 @@ const ExamplePage: React.FC = () => {
     onError: err => getRequestError('获取数据失败', err),
   });
 
-  const onSubmit = useCallback(params => {
-    console.log('form submit', params);
-    run(params);
-  }, []);
+  const onSubmit = useCallback(params => run(params), [run]);
 
   return useMemo(
     () => (
@@ -35,7 +35,7 @@ const ExamplePage: React.FC = () => {
         <ExampleForm />
       </PageHeaderWrapper>
     ),
-    [loading, data],
+    [loading, data, onSubmit],
   );
 };
 

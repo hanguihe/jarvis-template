@@ -28,32 +28,35 @@ const ExampleTable: React.FC<ExampleTableProps> = ({ loading, dataSource }) => {
 
   const { run: insert } = useRequest(deleteItem, { manual: false });
 
-  const onDelete = (id: number) => {
-    Modal.confirm({
-      title: '确认要删除吗？',
-      content: '删除后将无法恢复',
-      okType: 'danger',
-      icon: <ExclamationCircleOutlined />,
-      onOk: () =>
-        new Promise((resolve, reject) => {
-          insert(id)
-            .then(({ code, msg }) => {
-              if (code === 0) {
-                message.success('删除成功！');
-                dispatch({ type: 'refresh' });
-                return resolve();
-              } else {
-                getRequestError('删除失败', msg);
+  const onDelete = useCallback(
+    (id: number) => {
+      Modal.confirm({
+        title: '确认要删除吗？',
+        content: '删除后将无法恢复',
+        okType: 'danger',
+        icon: <ExclamationCircleOutlined />,
+        onOk: () =>
+          new Promise((resolve, reject) => {
+            insert(id)
+              .then(({ code, msg }) => {
+                if (code === 0) {
+                  message.success('删除成功！');
+                  dispatch({ type: 'refresh' });
+                  return resolve();
+                } else {
+                  getRequestError('删除失败', msg);
+                  return reject();
+                }
+              })
+              .catch(err => {
+                getRequestError('删除失败', err);
                 return reject();
-              }
-            })
-            .catch(err => {
-              getRequestError('删除失败', err);
-              return reject();
-            });
-        }),
-    });
-  };
+              });
+          }),
+      });
+    },
+    [dispatch, insert],
+  );
 
   const openDrawer = useCallback(
     (data?: ExampleData) => {
@@ -199,7 +202,14 @@ const ExampleTable: React.FC<ExampleTableProps> = ({ loading, dataSource }) => {
         />
       </Card>
     ),
-    [loading, dataSource],
+    [
+      loading,
+      columns,
+      dataSource,
+      openDrawer,
+      expandedRowRender,
+      statisticInfo,
+    ],
   );
 };
 

@@ -1,4 +1,4 @@
-import React, { createContext, Dispatch, Reducer } from 'react';
+import { createContext, Dispatch, Reducer } from 'react';
 import { ExampleData } from '@/pages/example/data';
 
 interface State {

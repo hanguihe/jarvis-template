@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useMemo } from 'react';
+import React, { useCallback, useContext, useEffect, useMemo } from 'react';
 import { Button, Col, DatePicker, Form, Input, Row, Select } from 'antd';
 import moment from 'moment';
 import {
@@ -22,30 +22,33 @@ const ExampleFilter: React.FC<ExampleProps> = ({ loading, onSubmit }) => {
 
   const [form] = Form.useForm();
 
-  const onFinish = (values: { [key: string]: any }) => {
-    // 时间处理
-    if (values.birthday) {
-      values.birthday = moment(values.birthday).format(MOMENT_FORMAT_DATE);
-    }
-    if (values.born_date && values.born_date.length === 2) {
-      values.born_date = [
-        moment(values.born_date[0]).format(MOMENT_FORMAT_DATE),
-        moment(values.born_date[1]).format(MOMENT_FORMAT_DATE),
-      ];
-    }
-    onSubmit(values);
-  };
+  const onFinish = useCallback(
+    (values: { [key: string]: any }) => {
+      // 时间处理
+      if (values.birthday) {
+        values.birthday = moment(values.birthday).format(MOMENT_FORMAT_DATE);
+      }
+      if (values.born_date && values.born_date.length === 2) {
+        values.born_date = [
+          moment(values.born_date[0]).format(MOMENT_FORMAT_DATE),
+          moment(values.born_date[1]).format(MOMENT_FORMAT_DATE),
+        ];
+      }
+      onSubmit(values);
+    },
+    [onSubmit],
+  );
 
-  const onReset = () => {
+  const onReset = useCallback(() => {
     form.resetFields();
     form.submit();
-  };
+  }, [form]);
 
   useEffect(() => {
     if (state.refresh) {
       form.submit();
     }
-  }, [state.refresh]);
+  }, [form, state.refresh]);
 
   return useMemo(
     () => (
@@ -104,7 +107,7 @@ const ExampleFilter: React.FC<ExampleProps> = ({ loading, onSubmit }) => {
         </Row>
       </Form>
     ),
-    [loading],
+    [loading, form, onReset, onFinish],
   );
 };
 

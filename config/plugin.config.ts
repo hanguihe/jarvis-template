@@ -1,7 +1,4 @@
 export default {
-  locale: {
-    antd: true,
-  },
   antd: {
     compact: true, // 紧凑主题
     // dark: true,  // 黑色主题
