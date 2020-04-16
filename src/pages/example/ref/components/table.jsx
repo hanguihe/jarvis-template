@@ -1,4 +1,5 @@
 import React from 'react';
+import { useRequest } from '@umijs/hooks';
 import {
   Alert,
   Button,
@@ -11,7 +12,6 @@ import {
   Tag,
 } from 'antd';
 import { ExclamationCircleOutlined } from '@ant-design/icons';
-import { useRequest } from '@umijs/hooks';
 import { deleteItem } from '@/services/api';
 import { getRequestError } from '@/utils/function';
 

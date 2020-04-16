@@ -1,8 +1,4 @@
 export default {
-  locale: {
-    default: 'zh-CN',
-    antd: true,
-  },
   antd: {
     compact: true, // 紧凑主题
     // dark: true,  // 黑色主题

@@ -3,13 +3,11 @@ import { PageHeaderWrapper } from '@ant-design/pro-layout';
 import { useRequest } from '@umijs/hooks';
 import { getTableList } from '@/services/api';
 import { getRequestError } from '@/utils/function';
-import Filter from './components/filter';
-import ExampleTable from './components/table';
-import ExampleForm from './components/form';
+import { ExampleFilter, ExampleTable, ExampleForm } from './components';
 
 const ExamplePage = () => {
-  const filter = useRef();
-  const formRef = useRef();
+  const filter = useRef(null);
+  const formRef = useRef(null);
 
   const { loading, run, data = [] } = useRequest(getTableList, {
     formatResult: ({ code, msg, data }) => {
@@ -24,7 +22,7 @@ const ExamplePage = () => {
   return (
     <PageHeaderWrapper
       title={false}
-      content={<Filter ref={filter} loading={loading} onSubmit={run} />}
+      content={<ExampleFilter ref={filter} loading={loading} onSubmit={run} />}
     >
       <ExampleTable
         loading={loading}

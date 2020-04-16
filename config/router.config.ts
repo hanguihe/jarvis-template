@@ -7,8 +7,27 @@ export default [
   },
   {
     path: '/example',
-    name: '基本功能示例',
+    redirect: '/example/context',
+  },
+  {
+    name: '基础功能示例',
     icon: 'appstore-add',
-    component: '@/pages/example',
+    routes: [
+      {
+        path: '/example/ref',
+        name: 'useRef',
+        component: '@/pages/example/ref',
+      },
+      {
+        path: '/example/context',
+        name: 'useContext',
+        component: '@/pages/example/context',
+      },
+      {
+        path: '/example/redux',
+        name: 'redux',
+        component: '@/pages/example/redux',
+      },
+    ],
   },
 ];
