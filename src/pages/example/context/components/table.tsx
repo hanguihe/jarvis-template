@@ -11,7 +11,7 @@ import {
   Tag,
 } from 'antd';
 import { ColumnProps } from 'antd/es/table';
-import { ExampleData } from '../data';
+import { ExampleData } from '../../data';
 import { StoreContext } from '../store';
 import { useRequest } from '@umijs/hooks';
 import { deleteItem } from '@/services/api';
@@ -26,7 +26,7 @@ interface ExampleTableProps {
 const ExampleTable: React.FC<ExampleTableProps> = ({ loading, dataSource }) => {
   const { dispatch } = useContext(StoreContext);
 
-  const { run: insert } = useRequest(deleteItem, { manual: false });
+  const { run } = useRequest(deleteItem, { manual: true });
 
   const onDelete = useCallback(
     (id: number) => {
@@ -37,7 +37,7 @@ const ExampleTable: React.FC<ExampleTableProps> = ({ loading, dataSource }) => {
         icon: <ExclamationCircleOutlined />,
         onOk: () =>
           new Promise((resolve, reject) => {
-            insert(id)
+            run(id)
               .then(({ code, msg }) => {
                 if (code === 0) {
                   message.success('删除成功！');
@@ -55,7 +55,7 @@ const ExampleTable: React.FC<ExampleTableProps> = ({ loading, dataSource }) => {
           }),
       });
     },
-    [dispatch, insert],
+    [dispatch, run],
   );
 
   const openDrawer = useCallback(

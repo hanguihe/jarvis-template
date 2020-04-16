@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useEffect, useMemo } from 'react';
+import React, { useCallback, useEffect, useMemo } from 'react';
 import { Button, Col, DatePicker, Form, Input, Row, Select } from 'antd';
 import moment from 'moment';
 import {
@@ -7,7 +7,8 @@ import {
   MOMENT_FORMAT_DATE,
 } from '@/utils/common';
 import { selectFilter } from '@/utils/function';
-import { StoreContext } from '../store';
+import { shallowEqual, useSelector } from 'react-redux';
+import { State } from '@/pages/example/redux/store';
 
 interface ExampleProps {
   readonly loading: boolean;
@@ -18,7 +19,10 @@ const { Item } = Form;
 const { Option } = Select;
 
 const ExampleFilter: React.FC<ExampleProps> = ({ loading, onSubmit }) => {
-  const { state } = useContext(StoreContext);
+  const { refresh } = useSelector(
+    (state: State) => ({ refresh: state.refresh }),
+    shallowEqual,
+  );
 
   const [form] = Form.useForm();
 
@@ -45,10 +49,10 @@ const ExampleFilter: React.FC<ExampleProps> = ({ loading, onSubmit }) => {
   }, [form]);
 
   useEffect(() => {
-    if (state.refresh) {
+    if (refresh) {
       form.submit();
     }
-  }, [form, state.refresh]);
+  }, [form, refresh]);
 
   return useMemo(
     () => (

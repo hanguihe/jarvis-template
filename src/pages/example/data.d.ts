@@ -16,7 +16,3 @@ export interface ExampleData {
   attribute: string;
   skills: string[];
 }
-
-export interface ExampleDataResponse extends ExampleResponse {
-  data: Array<ExampleData>;
-}

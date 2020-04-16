@@ -23,7 +23,7 @@ import { formItemLayout, MOMENT_FORMAT_DATE } from '@/utils/common';
 import { getRequestError, selectFilter } from '@/utils/function';
 import { insertData, updateData } from '@/services/api';
 import { StoreContext } from '../store';
-import { ExampleResponse } from '../data';
+import { ExampleResponse } from '../../data';
 
 const { Item } = Form;
 const { Option } = Select;

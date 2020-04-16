@@ -10,6 +10,7 @@ const ExamplePage: React.FC = () => {
   const { state, dispatch } = useContext(StoreContext);
 
   const { loading, run, data = [] } = useRequest(getTableList, {
+    manual: true,
     formatResult: ({ code, msg, data }) => {
       if (state.refresh) {
         dispatch({ type: 'refresh' });
