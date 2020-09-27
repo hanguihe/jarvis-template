@@ -1,7 +1,7 @@
 import { defineConfig } from 'umi';
 import plugins from './plugin.config';
 import theme from './theme.config';
-import routes from './router.config';
+import routes from './route.config';
 
 export default defineConfig({
   favicon: './favicon.ico',
@@ -15,7 +15,7 @@ export default defineConfig({
   nodeModulesTransform: {
     type: 'none',
   },
-  routes: routes,
-  theme: theme,
+  routes,
+  theme,
   ...plugins,
 });

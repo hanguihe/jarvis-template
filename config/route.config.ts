@@ -10,14 +10,9 @@ export default [
     redirect: '/example/context',
   },
   {
-    name: '基础功能示例',
+    name: '数据流方案',
     icon: 'appstore-add',
     routes: [
-      {
-        path: '/example/ref',
-        name: 'useRef',
-        component: '@/pages/example/ref',
-      },
       {
         path: '/example/context',
         name: 'useContext',

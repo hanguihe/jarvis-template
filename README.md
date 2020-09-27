@@ -1,26 +1,15 @@
-# jarvis-template
+# umi project
 
-快速搭建中后台管理系统模板
+## Getting Started
 
-### 基础JS版
+Install dependencies,
+
 ```bash
-git clone git@github.com:hanguihe/jarvis-template.git
+$ yarn
 ```
 
-### 基础TS版
+Start the dev server,
+
 ```bash
-git clone -b master-ts git@github.com:hanguihe/jarvis-template.git
+$ yarn start
 ```
-
-[跳转分支](https://github.com/hanguihe/jarvis-template/tree/master-ts)
-
-### TS Pro版
-```bash
-git clone -b master-ts-pro git@github.com:hanguihe/jarvis-template.git
-```
-
-[跳转分支](https://github.com/hanguihe/jarvis-template/tree/master-ts-pro)
-
-`useContext` + `useReducer` 共享内部状态
-
-`useMemo` + `useCallback` 极致性能

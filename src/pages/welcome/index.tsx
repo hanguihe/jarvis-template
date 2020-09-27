@@ -1,11 +1,11 @@
 import React from 'react';
-import { PageHeaderWrapper } from '@ant-design/pro-layout';
+import { PageContainer } from '@ant-design/pro-layout';
 import { Card } from 'antd';
 
 export default () => {
   return (
-    <PageHeaderWrapper>
-      <Card className="page-card">
+    <PageContainer>
+      <Card>
         <p>
           欢迎
           <span role="img" aria-label="鼓掌">
@@ -18,14 +18,14 @@ export default () => {
         </p>
         <p>
           <a
-            href="https://github.com/hanguihe/manage-system"
+            href="https://github.com/hanguihe/jarvis-template"
             target="_blank"
             rel="noopener noreferrer"
           >
-            <code>https://github.com/hanguihe/manage-system</code>
+            <code>https://github.com/hanguihe/jarvis-template</code>
           </a>
         </p>
       </Card>
-    </PageHeaderWrapper>
+    </PageContainer>
   );
 };
