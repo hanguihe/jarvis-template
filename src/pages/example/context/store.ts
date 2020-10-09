@@ -39,7 +39,6 @@ export const reducer: Reducer<State, Action> = (state, action) => {
           visible: true,
         };
       }
-
       return {
         ...state,
         visible: true,
@@ -62,7 +61,6 @@ export const reducer: Reducer<State, Action> = (state, action) => {
         ...state,
         refresh: true,
       };
-
     default:
       return state;
   }

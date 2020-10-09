@@ -26,17 +26,12 @@ export default (props: TableProps) => {
         align: 'center',
         render: (text, row) => (
           <React.Fragment>
-            <span
-              className="action-text"
-              onClick={() => openForm('update', row)}
-            >
+            <span className="action-text" onClick={() => openForm('update', row)}>
               编辑
             </span>
+            aa
             <Divider type="vertical" />
-            <span
-              className="action-text danger"
-              onClick={() => onDelete(row.id)}
-            >
+            <span className="action-text danger" onClick={() => onDelete(row.id)}>
               删除
             </span>
           </React.Fragment>
@@ -54,7 +49,7 @@ export default (props: TableProps) => {
           </Button>
         </Row>
         <Table
-          rowKey="id"
+          rowKey="iddd"
           columns={columns}
           dataSource={dataSource}
           pagination={{

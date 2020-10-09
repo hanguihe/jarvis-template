@@ -5,6 +5,7 @@ export default [
     icon: 'smile',
     component: '@/pages/welcome',
   },
+  { path: '/test', icon: 'smile', name: '测试', component: '@/pages/test' },
   {
     path: '/example',
     redirect: '/example/context',
